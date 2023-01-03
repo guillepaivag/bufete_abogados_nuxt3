@@ -12,5 +12,12 @@ export default defineNuxtConfig({
                 { name: 'description', content: 'My amazing site.' },
             ],
         }
+    },
+    css: [
+        'vuetify/lib/styles/main.sass', 
+        // '@mdi/font/css/materialdesignicons.min.css'
+    ],
+    build: {
+        transpile: ['vuetify']
     }
 })
