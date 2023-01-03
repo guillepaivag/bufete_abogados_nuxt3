@@ -9,3 +9,5 @@ dist
 
 # Configuraciones de firebase
 firebase-services/configs/*.js
+
+package-lock.json
