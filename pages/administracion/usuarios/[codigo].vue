@@ -5,5 +5,10 @@
 </template>
 
 <script setup>
+definePageMeta({
+    middleware: 'autenticado'
+})
+
 const route = useRoute()
+
 </script>
