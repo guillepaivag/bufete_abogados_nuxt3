@@ -4,8 +4,7 @@
         <div class="align-dropdown">
           <button class="dropbtn">Título ▼</button>
           <div class="dropdown-content">
-            <a
-              v-for="index in 6"
+            <a v-for="index in 6"
               :class="{ active: editor.isActive('heading', { level: index }) }"
               :style="{ fontSize: 20 - index + 'px' }"
               @click="onHeadingClick(index)"
@@ -27,7 +26,7 @@
         </button>
       </div>
   
-      <editor-content :editor="editor" />
+      <editor-content :editor="editor" style="padding: 10px;"/>
   
       <div v-if="editor" class="footer">
         <span class="characters-count" :class="maxLimit ? limitWarning : ''">
@@ -189,12 +188,20 @@
     },
   };
   </script>
-  
+
+  <style >
+  .ProseMirror:focus {
+      outline: none !important; 
+  }
+  </style>
+
   <style lang="less" scoped>
+  
   #text-editor {
     border: 1px solid #808080;
   
     .toolbar {
+      position: sticky !important; 
       display: flex;
       align-items: center;
       flex-wrap: wrap;
