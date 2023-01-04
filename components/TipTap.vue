@@ -2,7 +2,7 @@
     <div id="text-editor">
       <div class="toolbar" v-if="editor">
         <div class="align-dropdown">
-          <button class="dropbtn">Heading ▼</button>
+          <button class="dropbtn">Título ▼</button>
           <div class="dropdown-content">
             <a
               v-for="index in 6"
@@ -68,46 +68,46 @@
         editor: null,
         textActions: [
           { slug: 'bold', icon: 'format_bold', active: 'bold' },
-          { slug: 'italic', icon: 'format_bold', active: 'italic' },
-          { slug: 'underline', icon: 'format_bold', active: 'underline' },
-          { slug: 'strike', icon: 'format_bold', active: 'strike' },
+          { slug: 'italic', icon: 'format_italic', active: 'italic' },
+          { slug: 'underline', icon: 'format_underlined', active: 'underline' },
+          { slug: 'strike', icon: 'format_strikethrough', active: 'strike' },
           {
             slug: 'align',
             option: 'left',
-            icon: 'format_bold',
+            icon: 'format_align_left',
             active: { textAlign: 'left' },
           },
           {
             slug: 'align',
             option: 'center',
-            icon: 'format_bold',
+            icon: 'format_align_center',
             active: { textAlign: 'center' },
           },
           {
             slug: 'align',
             option: 'right',
-            icon: 'format_bold',
+            icon: 'format_align_right',
             active: { textAlign: 'right' },
           },
           {
             slug: 'align',
             option: 'justify',
-            icon: 'format_bold',
+            icon: 'format_align_justify',
             active: { textAlign: 'justify' },
           },
-          { slug: 'bulletList', icon: 'format_bold', active: 'bulletList' },
-          { slug: 'orderedList', icon: 'format_bold', active: 'orderedList' },
-          { slug: 'subscript', icon: 'format_bold', active: 'subscript' },
+          { slug: 'bulletList', icon: 'format_list_bulleted', active: 'bulletList' },
+          { slug: 'orderedList', icon: 'format_list_numbered', active: 'orderedList' },
+          { slug: 'subscript', icon: 'subscript', active: 'subscript' },
           {
             slug: 'superscript',
-            icon: 'format_bold',
+            icon: 'superscript',
             active: 'superscript',
           },
-          { slug: 'undo', icon: 'format_bold', active: 'undo' },
-          { slug: 'redo', icon: 'format_bold', active: 'redo' },
-          { slug: 'clear', icon: 'format_bold', active: 'clear' },
-          { slug: 'codeblock', icon: 'format_bold', active: 'codeblock' },
-          { slug: 'code', icon: 'format_bold', active: 'code' },
+          { slug: 'clear', icon: 'format_clear', active: 'clear' },
+          { slug: 'codeblock', icon: 'integration_instructions', active: 'codeblock' },
+          { slug: 'code', icon: 'code', active: 'code' },
+          { slug: 'undo', icon: 'undo', active: 'undo' },
+          { slug: 'redo', icon: 'redo', active: 'redo' },
         ],
       };
     },
