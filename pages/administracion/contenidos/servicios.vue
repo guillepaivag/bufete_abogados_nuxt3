@@ -13,41 +13,35 @@
                         <div class="pa-5">
 
                             <div class="mb-5">
-                                <h3>Quienes Somos</h3>
-                                <v-divider class="mb-3" />
-
-                                <v-btn color="primary" @click="dialog = true" class="mb-3">
-                                    Editar Quienes Somos
-                                </v-btn>
-                                <v-btn color="primary" @click="dialog = true">
-                                    Cambiar Imagen
-                                </v-btn>
-                            </div>
-
-                            <div class="mb-5">
                                 <h3>Servicios</h3>
                                 <v-divider class="mb-3" />
 
-                                <v-btn color="primary" :to="`/administracion/contenidos/servicios`">
-                                    Ver Servicios
-                                </v-btn>
+                                <div v-for="(servicio, index) in listaServicios" :key="index"
+                                    on-click="" style="text-decoration: none;">
+                                    <div class="card_usuario">
+                                        <span>{{ servicio.titulo }}</span>
+                                    </div>
+                                </div>
                             </div>
 
                         </div>
                     </v-col>
                     <v-col cols="12" md="8">
                         <div class="pa-5">
-                            <v-card class="mx-auto" max-width="650" v-if="quienesSomos">
-                                <v-img class="align-end text-white" height="400" :src=quienesSomos.foto cover>
+                            <v-card class="mx-auto" max-width="650" v-if="servicioSeleccionado">
+                                <v-img class="align-end text-white" height="400" :src=servicioSeleccionado.foto cover>
                                     <v-card-title>Quienes Somos</v-card-title>
                                 </v-img>
                                 <v-card-text>
-                                    <div v-html="quienesSomos.texto"></div>
+                                    <div v-html="servicioSeleccionado.texto"></div>
                                 </v-card-text>
 
                                 <v-card-actions>
                                     <v-btn color="primary" @click="dialog = true">
-                                        Editar
+                                        Editar datos
+                                    </v-btn>
+                                    <v-btn color="primary" @click="dialog = true">
+                                        Editar contenido
                                     </v-btn>
                                     <v-btn color="primary" @click="dialog = true">
                                         Cambiar Imagen
@@ -72,7 +66,7 @@
                                 Actualizar
                             </v-btn>
                             <v-btn color="red"
-                                @click="content === quienesSomos.texto ? dialog = false : dialogSalir = true">
+                                @click="content === servicioSeleccionado.texto ? dialog = false : dialogSalir = true">
                                 Cancelar
                             </v-btn>
                         </div>
@@ -88,17 +82,15 @@
                         <v-card-text>Si sales, se perderán tus cambios.</v-card-text>
                         <v-card-actions>
                             <v-spacer></v-spacer>
-                            <v-btn color="red-darken-1" variant="text" 
-                            @click="dialogSalir = false; dialog = false; content = quienesSomos.texto">
+                            <v-btn color="red-darken-1" variant="text"
+                                @click="dialogSalir = false; dialog = false; content = servicioSeleccionado.texto">
                                 Salir sin guardar
                             </v-btn>
-                            <v-btn color="green-darken-1" variant="text" 
-                            @click="dialogSalir = false">
+                            <v-btn color="green-darken-1" variant="text" @click="dialogSalir = false">
                                 Seguir Editando
                             </v-btn>
-                            <v-btn color="primary-darken-1" variant="text" 
-                            @click="dialogSalir = false; dialog = false; actualizar()" 
-                            :loading="actualizando">
+                            <v-btn color="primary-darken-1" variant="text"
+                                @click="dialogSalir = false; dialog = false; actualizar()" :loading="actualizando">
                                 Actualizar
                             </v-btn>
                         </v-card-actions>
@@ -111,11 +103,14 @@
 
 <script setup>
 import { onMounted } from 'vue';
+import { doc, getDoc, query, collection, where, getDocs  } from "firebase/firestore";
+import { db } from "../../../firebase-services/apps/firebaseFirestoreDefault.js"
 
-let actualizando=ref(false)
+let actualizando = ref(false)
 let dialogSalir = ref(false)
 let dialog = ref(false)
-let quienesSomos = ref(null)
+let listaServicios = ref([])
+let servicioSeleccionado = ref(null)
 let content = ref("")
 const breadcrumbs = [
     {
@@ -130,16 +125,32 @@ const breadcrumbs = [
     },
     {
         title: 'Contenidos',
-        disabled: true,
+        disabled: false,
         href: '/administracion/contenidos',
+    },
+    {
+        title: 'Servicios',
+        disabled: true,
+        href: '/administracion/contenidos/servicios',
     },
 ]
 
 onMounted(async () => {
-    await obtenerQuienesSomos()
+    await obtenerServicios()
 })
 
-const obtenerQuienesSomos = async () => {
+const obtenerServicios = async () => {
+    listaServicios.value = []
+    const q = query(collection(db, "Contenidos"), where("tipo", "==", "Servicio"));
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        listaServicios.value.push(doc.data())
+    });
+}
+
+const obtenerservicioSeleccionado = async () => {
     const { $apiContenido } = useNuxtApp()
 
     const config = {
@@ -149,8 +160,8 @@ const obtenerQuienesSomos = async () => {
     }
     const response = await $apiContenido.get('/codigo/quienes-somos', config)
 
-    quienesSomos.value = response.data.resultado
-    content.value = quienesSomos.value.texto
+    servicioSeleccionado.value = response.data.resultado
+    content.value = servicioSeleccionado.value.texto
     console.log('response', response)
 }
 
@@ -169,16 +180,16 @@ const actualizar = async () => {
             }
         }
         const body = {
-            'codigo': quienesSomos.value.codigo,
-            'titulo': quienesSomos.value.titulo,
+            'codigo': servicioSeleccionado.value.codigo,
+            'titulo': servicioSeleccionado.value.titulo,
             'descripcion': "--------------",
             'texto': content.value,
-            'foto': quienesSomos.value.foto,
-            'tipo': quienesSomos.value.tipo
+            'foto': servicioSeleccionado.value.foto,
+            'tipo': servicioSeleccionado.value.tipo
         }
-        const response = await $apiContenido.put(`/${quienesSomos.value.uid}`, body, config)
+        const response = await $apiContenido.put(`/${servicioSeleccionado.value.uid}`, body, config)
         dialog.value = false
-        quienesSomos.value.texto = response.data.resultado.texto
+        servicioSeleccionado.value.texto = response.data.resultado.texto
     }
     actualizando.value = false
 }
@@ -208,6 +219,29 @@ export default {
             console.log(this.content)
         }
     }
-    
+
 };
 </script>
+
+
+<style scoped>
+.card_usuario {
+    padding: 7px;
+    background: #c8640c;
+    border-radius: .4rem;
+    transition: 300ms;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.card_usuario:hover {
+    padding: 7px;
+    background: #fa7d0f;
+    border-radius: .4rem;
+    transition: 300ms;
+}
+
+.card_usuario span {
+    color: white;
+}
+</style>
