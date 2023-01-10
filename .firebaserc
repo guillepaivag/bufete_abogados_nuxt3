@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "consultoria-legal-dev"
+  },
+  "targets": {
+    "consultoria-legal-dev": {
+      "hosting": {
+        "nuxt_3": [
+          "prueba-hosting-nuxt3-1"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

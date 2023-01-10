@@ -68,7 +68,6 @@
                     </div>
                     
                     <div class="">
-                        
                         <v-btn
                             class="mr-4"
                             color="primary"

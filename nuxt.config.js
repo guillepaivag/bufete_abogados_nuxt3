@@ -19,5 +19,12 @@ export default defineNuxtConfig({
     ],
     build: {
         transpile: ['vuetify']
+    },
+    routeRules: {
+        '/': { ssr: true },
+        '/servicio/**': { ssr: true }
+    },
+    nitro: {
+        preset: 'firebase'
     }
 })

@@ -54,6 +54,12 @@
                                     </v-btn>
                                 </v-card-actions>
                             </v-card>
+                            <div v-else>
+                                <v-progress-linear
+                                    indeterminate
+                                    color="yellow darken-2"
+                                ></v-progress-linear>
+                            </div>
                         </div>
                     </v-col>
                 </v-row>
@@ -111,6 +117,11 @@
 
 <script setup>
 import { onMounted } from 'vue';
+import TipTap from '../../../components/TipTap.vue';
+
+definePageMeta({
+    middleware: 'autenticado'
+})
 
 let actualizando=ref(false)
 let dialogSalir = ref(false)
@@ -147,7 +158,7 @@ const obtenerQuienesSomos = async () => {
             'Content-Type': 'application/json',
         }
     }
-    const response = await $apiContenido.get('/codigo/quienes-somos', config)
+    const response = await $apiContenido.get('/contenidos/codigo/quienes-somos', config)
 
     quienesSomos.value = response.data.resultado
     content.value = quienesSomos.value.texto
@@ -169,45 +180,19 @@ const actualizar = async () => {
             }
         }
         const body = {
-            'codigo': quienesSomos.value.codigo,
-            'titulo': quienesSomos.value.titulo,
-            'descripcion': "--------------",
-            'texto': content.value,
-            'foto': quienesSomos.value.foto,
-            'tipo': quienesSomos.value.tipo
+            codigo: quienesSomos.value.codigo,
+            titulo: quienesSomos.value.titulo,
+            descripcion: "--------------",
+            texto: content.value,
+            foto: quienesSomos.value.foto,
+            tipo: quienesSomos.value.tipo,
+            uid: quienesSomos.value.uid,
         }
-        const response = await $apiContenido.put(`/${quienesSomos.value.uid}`, body, config)
+        const response = await $apiContenido.put(`/contenidos/${quienesSomos.value.uid}`, body, config)
         dialog.value = false
         quienesSomos.value.texto = response.data.resultado.texto
     }
     actualizando.value = false
 }
 
-</script>
-
-<script>
-import TipTap from '../../../components/TipTap.vue';
-import { currentUser } from '~~/composables/useFirebaseAuth';
-export default {
-    name: 'App',
-    components: {
-        TipTap,
-    },
-    data() {
-        return {
-            content: '',
-        };
-    },
-    methods: {
-        onSubmit() {
-            alert(JSON.stringify(this.content));
-        },
-    },
-    watch: {
-        content: function (n, v) {
-            console.log(this.content)
-        }
-    }
-    
-};
 </script>

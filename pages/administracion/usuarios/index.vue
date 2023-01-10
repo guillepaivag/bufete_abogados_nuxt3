@@ -31,7 +31,7 @@
 
                                 <v-btn
                                     color="primary"
-                                    :to="`/administracion/usuarios/${user.uid}`"
+                                    :to="`/administracion/usuarios/${myUser.uid}`"
                                 >
                                     Ver mi usuario
                                 </v-btn>
@@ -43,25 +43,33 @@
                         <div class="pa-5">
                             <h3 class="mb-4">Todos los usuarios</h3>
 
-                            <NuxtLink 
-                                v-for="(usuario, index) in listaUsuarios" 
-                                :key="index" 
-                                :to="`/administracion/usuarios/${usuario.uid}`" 
-                                style="text-decoration: none;"
-                            >
-                                <div class="card_usuario">
-                                    <span>{{ usuario.email }}</span>
-                                </div>
-                            </NuxtLink>
+                            <div v-if="cargandoListaUsuarios">
+                                <v-progress-linear
+                                    indeterminate
+                                    color="yellow darken-2"
+                                ></v-progress-linear>
+                            </div>
+                            <div v-else>
+                                <NuxtLink 
+                                    v-for="(usuario, index) in listaUsuarios" 
+                                    :key="index" 
+                                    :to="`/administracion/usuarios/${usuario.uid}`" 
+                                    style="text-decoration: none;"
+                                >
+                                    <div class="card_usuario">
+                                        <span>{{ usuario.email }}</span>
+                                    </div>
+                                </NuxtLink>
 
-                            <v-btn
-                                v-if="pageToken"
-                                block
-                                color="primary"
-                                @click="paginarLista"
-                            >
-                                Ver más
-                            </v-btn>
+                                <v-btn
+                                    v-if="pageToken"
+                                    block
+                                    color="primary"
+                                    @click="paginarLista"
+                                >
+                                    Ver más
+                                </v-btn>
+                            </div>                            
                         </div>
                     </v-col>
                 </v-row>
@@ -83,7 +91,7 @@
                                     class="mb-3"
                                 >
                                     <span style="font-size: 14px;">
-                                        Todos los usuarios tienen como contraseña: <b>123456</b>
+                                        Todos los usuarios tienen como contraseña: <b>123456</b> <p>Puedes actualizar tu contraseña luego</p>
                                     </span>
                                 </v-alert>
 
@@ -123,6 +131,24 @@
                 </v-card>
             </v-dialog>
 
+            <v-dialog max-width="600" v-model="dialogMensaje">
+                <v-card class="pa-3">
+                    <v-card-text class="mb-3">
+                        <span>{{ mensaje }}</span>
+                    </v-card-text>
+
+                    <div class="">
+                        <v-btn 
+                            color="red"
+                            @click="dialogMensaje = false; mensaje = ''"
+                        >
+                            Cerrar
+                        </v-btn>
+                    </div>
+
+                </v-card>
+            </v-dialog>
+
             <!-- Ver mi usuario -->
 
             <!-- Listar -->
@@ -138,11 +164,14 @@ definePageMeta({
 })
 
 // Data
-const user = useUser()
+const myUser = useUser()
 const dialog = ref(false)
 const newEmail = ref('')
 const listaUsuarios = ref([])
+const cargandoListaUsuarios = ref(true)
 const pageToken = ref('')
+const dialogMensaje = ref(false)
+const mensaje = ref('')
 const breadcrumbs = [
     {
         title: 'Inicio',
@@ -179,13 +208,20 @@ const create = async () => {
     listaUsuarios.value = []
     pageToken.value = ''
     dialog.value = false
+
+    dialogMensaje.value = true
+    mensaje.value = 'Se creó el usuario correctamente.'
 }
 
 const clear = () => {
     newEmail.value = ''
 }
 
-const comenzarLista = async () => listar('')
+const comenzarLista = async () => {
+    cargandoListaUsuarios.value = true
+    await listar('')
+    cargandoListaUsuarios.value = false
+}
 
 const paginarLista = async () => {
     if (!pageToken.value) return

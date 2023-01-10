@@ -7,7 +7,9 @@ node_modules
 .env
 dist
 
-# Configuraciones de firebase
-firebase-services/configs/*.js
-
+# Packages
 package-lock.json
+
+# Configuraciones de firebase
+.firebase
+firebase-services/configs/*.js
