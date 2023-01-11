@@ -24,7 +24,8 @@ export default defineNuxtConfig({
     },
     routeRules: {
         '/': { ssr: true },
-        '/servicio/**': { ssr: true }
+        '/servicio/**': { ssr: true },
+        
     },
     nitro: {
         preset: 'firebase'

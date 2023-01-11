@@ -6,7 +6,7 @@
         <h1>{{ servicio.titulo }}</h1>
       </div>
       <div class="card-text"><p v-html="servicio.descripcion"></p></div>
-      <NuxtLink class="read-more" :to="`servicios/${servicio.codigo}`" style="text-decoration: none;">
+      <NuxtLink class="read-more" :to="`servicio/${servicio.codigo}`" style="text-decoration: none;">
         Ver Más
       </NuxtLink>
     </div>
