@@ -13,18 +13,16 @@
                         <div class="pa-2">
 
                             <div class="mb-5">
-                                <v-btn class="mb-5" block variant="tonal" color="green" @click="dialogCreacionServicio = true">
+                                <v-btn class="mb-5" block variant="tonal" color="green"
+                                    @click="dialogCreacionServicio = true">
                                     Crear servicio
                                 </v-btn>
 
                                 <h3>Servicios</h3>
                                 <v-divider class="mb-3" />
 
-                                <div 
-                                    v-for="(servicio, index) in listaServicios" :key="index"
-                                    @click="seleccionarServicio(index)" 
-                                    style="text-decoration: none;"
-                                >
+                                <div v-for="(servicio, index) in listaServicios" :key="index"
+                                    @click="seleccionarServicio(index)" style="text-decoration: none;">
                                     <div class="card_usuario">
                                         <span>{{ servicio.titulo }}</span>
                                     </div>
@@ -43,27 +41,30 @@
                                     <v-btn variant="tonal" color="primary" @click="dialogActualizacionContenido = true">
                                         Editar contenido
                                     </v-btn>
-                                    <v-btn variant="tonal" color="primary" @click="">
+                                    <v-btn variant="tonal" color="primary" @click="dialogCambiarImagen = true">
                                         Cambiar Imagen
                                     </v-btn>
                                 </v-card-actions>
 
-                                <v-img class="align-end text-white mb-3" height="400" :src="servicioSeleccionado.foto" cover>
-                                    <v-card-title style="font-size: 30px;">{{servicioSeleccionado.titulo}}</v-card-title>
+                                <v-img class="align-end text-white mb-3" height="400" :src="servicioSeleccionado.foto"
+                                    cover>
+                                    <v-card-title
+                                        style="font-size: 30px;">{{ servicioSeleccionado.titulo }}</v-card-title>
                                 </v-img>
-                                
+
                                 <div class="pa-3">
                                     <h3>Descripción</h3>
                                     <hr class="mb-3">
                                     <v-card-text v-html="servicioSeleccionado.descripcion" />
-                                    
+
                                     <h3>Contenido</h3>
                                     <hr class="mb-3">
                                     <v-card-text v-html="servicioSeleccionado.texto" />
                                 </div>
 
                                 <v-card-actions>
-                                    <v-btn v-if="listaServicios.length" block variant="outlined" color="red" @click="eliminar">
+                                    <v-btn v-if="listaServicios.length" block variant="outlined" color="red"
+                                        @click="eliminar">
                                         Eliminar servicio
                                     </v-btn>
                                 </v-card-actions>
@@ -85,11 +86,8 @@
                             <v-btn class="mr-4" color="primary" @click="actualizarContenido" :loading="actualizando">
                                 Actualizar
                             </v-btn>
-                            <v-btn 
-                                color="red"
-                                variant="outlined"
-                                @click="dialogActualizacionContenido = false; seleccionarServicio(indexServicioSeleccionado);"
-                            >
+                            <v-btn color="red" variant="outlined"
+                                @click="dialogActualizacionContenido = false; seleccionarServicio(indexServicioSeleccionado);">
                                 Cancelar
                             </v-btn>
                         </div>
@@ -103,43 +101,44 @@
                         <div class="mb-3">
                             <h3>Codigo</h3>
                             <hr class="mb-5">
-                            <v-text-field
-                                v-model="datosActualizacionServicio.codigo"
-                                :error-messages="codigoVerificacionActualizar"
-                                label="Codigo"
-                            ></v-text-field>
+                            <v-text-field v-model="datosActualizacionServicio.codigo"
+                                :error-messages="codigoVerificacionActualizar" label="Codigo"></v-text-field>
 
                             <h3>Titulo</h3>
                             <hr class="mb-5">
-                            <v-text-field
-                                v-model="datosActualizacionServicio.titulo"
-                                :error-messages="tituloVerificacionActualizar"
-                                label="Titulo"
-                            ></v-text-field>
-                            
+                            <v-text-field v-model="datosActualizacionServicio.titulo"
+                                :error-messages="tituloVerificacionActualizar" label="Titulo"></v-text-field>
+
                             <h3>Descripción</h3>
                             <hr class="mb-5">
                             <TipTap v-model="datosActualizacionServicio.descripcion" :max-limit="2500" />
                         </div>
 
                         <div class="">
-                            <v-btn 
+                            <v-btn
                                 :disabled="!datosActualizacionServicio.codigo || !datosActualizacionServicio.titulo || !datosValidosParaActualizar"
-                                class="mr-4" 
-                                color="primary" 
-                                @click="actualizar" 
-                                :loading="actualizando"
-                            >
+                                class="mr-4" color="primary" @click="actualizar" :loading="actualizando">
                                 Actualizar
                             </v-btn>
-                            <v-btn 
-                                color="red"
-                                variant="outlined"
-                                @click="dialogActualizacionServicio = false; seleccionarServicio(indexServicioSeleccionado);"
-                            >
+                            <v-btn color="red" variant="outlined"
+                                @click="dialogActualizacionServicio = false; seleccionarServicio(indexServicioSeleccionado);">
                                 Cancelar
                             </v-btn>
                         </div>
+                    </v-card-text>
+                </v-card>
+            </v-dialog>
+
+            <v-dialog max-width="1000" v-model="dialogCambiarImagen" persistent>
+                <v-card class="pa-3">
+                    <v-card-text class="mb-3">
+                        <h3>Cambiar Imagen</h3>
+                            <hr class="mb-5">
+                        <Foto :servicio="servicioSeleccionado" :estado="cargandoImagen"></Foto>
+                        <v-btn color="red" variant="outlined" class="mt-3"
+                        @click="dialogCambiarImagen = false" :disabled="cargandoImagen.cargando">
+                        Cerrar
+                    </v-btn>
                     </v-card-text>
                 </v-card>
             </v-dialog>
@@ -150,50 +149,37 @@
                         <div class="mb-3">
                             <h3>Codigo</h3>
                             <hr class="mb-5">
-                            <v-text-field
-                                v-model="datosCreacionServicio.codigo"
-                                :error-messages="codigoVerificacionCreacion"
-                                label="Codigo"
-                            ></v-text-field>
+                            <v-text-field v-model="datosCreacionServicio.codigo"
+                                :error-messages="codigoVerificacionCreacion" label="Codigo"></v-text-field>
 
                             <h3>Titulo</h3>
                             <hr class="mb-5">
-                            <v-text-field
-                                v-model="datosCreacionServicio.titulo"
-                                :error-messages="tituloVerificacionCreacion"
-                                label="Titulo"
-                            ></v-text-field>
+                            <v-text-field v-model="datosCreacionServicio.titulo"
+                                :error-messages="tituloVerificacionCreacion" label="Titulo"></v-text-field>
                         </div>
 
                         <div class="">
-                            <v-btn 
-                                :disabled="!datosCreacionServicio.codigo || !datosCreacionServicio.titulo || !datosValidosParaCrear" 
-                                class="mr-4" 
-                                color="primary" 
-                                @click="crear" 
-                                :loading="creando"
-                            >
+                            <v-btn
+                                :disabled="!datosCreacionServicio.codigo || !datosCreacionServicio.titulo || !datosValidosParaCrear"
+                                class="mr-4" color="primary" @click="crear" :loading="creando">
                                 Crear
                             </v-btn>
-                            <v-btn 
-                                color="red"
-                                variant="outlined"
-                                @click="dialogCreacionServicio = false; datosCreacionServicio = {codigo: '', titulo: ''}"
-                            >
+                            <v-btn color="red" variant="outlined"
+                                @click="dialogCreacionServicio = false; datosCreacionServicio = { codigo: '', titulo: '' }">
                                 Cancelar
                             </v-btn>
                         </div>
                     </v-card-text>
                 </v-card>
             </v-dialog>
-            
+
         </div>
     </div>
 </template>
 
 <script setup>
 import { onMounted } from 'vue';
-import { doc, getDoc, query, collection, where, getDocs  } from "firebase/firestore";
+import { doc, getDoc, query, collection, where, getDocs } from "firebase/firestore";
 import { db } from "../../../firebase-services/apps/firebaseFirestoreDefault.js"
 
 // Components
@@ -210,7 +196,7 @@ const indexServicioSeleccionado = ref(-1)
 
 const creando = ref(false)
 const dialogCreacionServicio = ref(false)
-const datosCreacionServicio = ref({codigo: '', titulo: ''})
+const datosCreacionServicio = ref({ codigo: '', titulo: '' })
 const datosValidosParaCrear = ref(false)
 
 const actualizando = ref(false)
@@ -219,6 +205,10 @@ const datosActualizacionServicio = ref(null)
 const dialogActualizacionContenido = ref(false)
 const contenidoActualizado = ref('')
 const datosValidosParaActualizar = ref(false)
+
+const dialogCambiarImagen = ref(false)
+const cargandoImagen = ref({})
+cargandoImagen.value.cargando = false
 
 const eliminando = ref(false)
 
@@ -371,7 +361,7 @@ const eliminar = async () => {
                 'Authorization': `Bearer ${token}`
             }
         }
-        
+
         await $apiContenido.delete(`/contenidos/${servicioSeleccionado.value.uid}`, config)
     }
     eliminando.value = false
@@ -440,6 +430,15 @@ onMounted(async () => {
     seleccionarServicio(0)
 })
 
+</script>
+
+<script>
+import Foto from "@/components/Foto.vue"
+export default {
+    components: {
+        Foto,
+    }
+}
 </script>
 
 

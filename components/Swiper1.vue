@@ -1,9 +1,20 @@
 <template>
   <swiper 
-    :slides-per-view="3" 
-    :space-between="20" 
-    :slides-offset-before="80" 
-    :slides-offset-after="80"
+    :centeredSlides="true"
+    :breakpoints="{
+      '640': {
+        slidesPerView: 1,
+        spaceBetween: 5,
+      },
+      '768': {
+        slidesPerView: 2,
+        spaceBetween: 10,
+      },
+      '1024': {
+        slidesPerView: 2,
+        spaceBetween: 20,
+      },
+    }"
     navigation
     :pagination="{ clickable: true }" 
     @swiper="onSwiper" 
@@ -24,9 +35,11 @@ import { Swiper, SwiperSlide } from 'swiper/vue';
 
 // Import Swiper styles
 import 'swiper/css';
+
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
+import 'swiper/css/effect-cube'
 
 import SwiperCard1 from './SwiperCard1.vue';
 

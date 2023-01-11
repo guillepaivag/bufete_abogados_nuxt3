@@ -103,8 +103,6 @@
             active: 'superscript',
           },
           { slug: 'clear', icon: 'format_clear', active: 'clear' },
-          { slug: 'codeblock', icon: 'integration_instructions', active: 'codeblock' },
-          { slug: 'code', icon: 'code', active: 'code' },
           { slug: 'undo', icon: 'undo', active: 'undo' },
           { slug: 'redo', icon: 'redo', active: 'redo' },
         ],
@@ -152,8 +150,6 @@
             vm.clearNodes().run();
             vm.unsetAllMarks().run();
           },
-          codeblock: () => vm.toggleCodeBlock().run(),
-          code: () => vm.toggleCode().run(),
         };
   
         actionTriggers[slug]();
@@ -292,26 +288,6 @@
 }
 </style>
 
-<style lang="less">
-.ProseMirror {
-  overflow-y: auto;
-  padding-left: 0.5em;
-  padding-right: 0.5em;
-  outline: none;
-
-  > p:first-child {
-    margin-top: 0.5em;
-  }
-
-  > h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    &:first-child {
-      margin-top: 0.5em;
-    }
-  }
-}
+<style lang="less" >
+.ProseMirror{}
 </style>

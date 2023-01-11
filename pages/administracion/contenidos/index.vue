@@ -15,11 +15,12 @@
                             <div class="mb-5">
                                 <h3>Quienes Somos</h3>
                                 <v-divider class="mb-3" />
-
-                                <v-btn color="primary" @click="dialog = true" class="mb-3">
-                                    Editar Quienes Somos
-                                </v-btn>
-                                <v-btn color="primary" @click="dialog = true">
+                                <div>
+                                    <v-btn color="primary" @click="dialog = true" class="mb-3 mr-3">
+                                        Editar Quienes Somos
+                                    </v-btn>
+                                </div>
+                                <v-btn color="primary" @click="dialogCambiarImagen = true">
                                     Cambiar Imagen
                                 </v-btn>
                             </div>
@@ -49,16 +50,13 @@
                                     <v-btn color="primary" @click="dialog = true">
                                         Editar
                                     </v-btn>
-                                    <v-btn color="primary" @click="dialog = true">
+                                    <v-btn color="primary" @click="dialogCambiarImagen = true">
                                         Cambiar Imagen
                                     </v-btn>
                                 </v-card-actions>
                             </v-card>
                             <div v-else>
-                                <v-progress-linear
-                                    indeterminate
-                                    color="yellow darken-2"
-                                ></v-progress-linear>
+                                <v-progress-linear indeterminate color="yellow darken-2"></v-progress-linear>
                             </div>
                         </div>
                     </v-col>
@@ -94,17 +92,15 @@
                         <v-card-text>Si sales, se perderán tus cambios.</v-card-text>
                         <v-card-actions>
                             <v-spacer></v-spacer>
-                            <v-btn color="red-darken-1" variant="text" 
-                            @click="dialogSalir = false; dialog = false; content = quienesSomos.texto">
+                            <v-btn color="red-darken-1" variant="text"
+                                @click="dialogSalir = false; dialog = false; content = quienesSomos.texto">
                                 Salir sin guardar
                             </v-btn>
-                            <v-btn color="green-darken-1" variant="text" 
-                            @click="dialogSalir = false">
+                            <v-btn color="green-darken-1" variant="text" @click="dialogSalir = false">
                                 Seguir Editando
                             </v-btn>
-                            <v-btn color="primary-darken-1" variant="text" 
-                            @click="dialogSalir = false; dialog = false; actualizar()" 
-                            :loading="actualizando">
+                            <v-btn color="primary-darken-1" variant="text"
+                                @click="dialogSalir = false; dialog = false; actualizar()" :loading="actualizando">
                                 Actualizar
                             </v-btn>
                         </v-card-actions>
@@ -112,6 +108,19 @@
                 </v-dialog>
             </v-row>
         </div>
+        <v-dialog max-width="1000" v-model="dialogCambiarImagen" persistent>
+            <v-card class="pa-3">
+                <v-card-text class="mb-3">
+                    <h3>Cambiar Imagen</h3>
+                    <hr class="mb-5">
+                    <Foto :servicio="quienesSomos" :estado="cargandoImagen"></Foto>
+                    <v-btn color="red" variant="outlined" class="mt-3" @click="dialogCambiarImagen = false"
+                        :disabled="cargandoImagen.cargando">
+                        Cerrar
+                    </v-btn>
+                </v-card-text>
+            </v-card>
+        </v-dialog>
     </div>
 </template>
 
@@ -123,7 +132,7 @@ definePageMeta({
     middleware: 'autenticado'
 })
 
-let actualizando=ref(false)
+let actualizando = ref(false)
 let dialogSalir = ref(false)
 let dialog = ref(false)
 let quienesSomos = ref(null)
@@ -145,6 +154,10 @@ const breadcrumbs = [
         href: '/administracion/contenidos',
     },
 ]
+
+const dialogCambiarImagen = ref(false)
+const cargandoImagen = ref({})
+cargandoImagen.value.cargando = false
 
 onMounted(async () => {
     await obtenerQuienesSomos()
@@ -195,4 +208,13 @@ const actualizar = async () => {
     actualizando.value = false
 }
 
+</script>
+
+<script>
+import Foto from "@/components/Foto.vue"
+export default {
+    components: {
+        Foto,
+    }
+}
 </script>

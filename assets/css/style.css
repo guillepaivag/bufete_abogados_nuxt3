@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap');
+div {
+    font-family: 'Poppins';
+}
+
+p {
+    margin-bottom: 15px;
+    color: rgba(0,0,0,0.6);
+    font-family: 'Poppins';
+}
+
+ul,
+  ol {
+      padding: 0 1rem;
+  }
+
+  li {
+      margin-left: 10px;
+  }
+
+spam {
+    font-family: 'Poppins';
+}
+
+ h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 
+    {
+      margin-top: 0.5em;
+      margin-bottom: 15px;
+    }

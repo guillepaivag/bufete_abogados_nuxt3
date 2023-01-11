@@ -22,20 +22,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
 @import url(https://fonts.googleapis.com/css?family=Oswald|Roboto|Slabo+27px);
 h1{
   font-size:32px;
   margin-top:30px;
-  font-family: 'Oswald', sans-serif;  
   text-align:center;
 }
+
 .blog-wrapper{
   display:flex;
   flex-direction:row;
   justify-content:center;
   flex-wrap:wrap;
   .blog-card{
-    max-width:350px;
+    max-width:600px;
     background:#fff;
     border:1px solid #dfb758;
     text-align:center;
@@ -53,9 +54,11 @@ h1{
       text-align:center;
       background:#dfb758;
       img{
-        max-height:180px;
+        object-fit: cover;
+        max-height:220px;
         width:100%;
         border-bottom:4px solid #dfb758;
+
       }
       &:before{
         content:'';
@@ -72,11 +75,11 @@ h1{
       h1{
         position:absolute;
         margin:0;
-        font-size:42px;
+        font-size:35px;
         bottom:15px;
         width:100%;
         color:#fff;
-        font-family: 'Slabo 27px', serif;
+
       }
     }
     .card-details{
@@ -105,7 +108,8 @@ h1{
       color:#fff;
       padding:15px;
       margin-bottom:30px;
-      font-family: 'Oswald', sans-serif;
+      letter-spacing: 2px;
+      font-family: 'Poppins' !important;
       &:hover{
         background: darken(#dfb758,20%);
       }
