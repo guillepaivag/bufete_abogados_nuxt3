@@ -65,3 +65,12 @@ export default {
 
 };
 </script>
+
+<style scoped>
+hr {
+    width: 90px;
+    height: 3px;
+    background: #f7d584;
+    border: 0;
+}
+</style>
