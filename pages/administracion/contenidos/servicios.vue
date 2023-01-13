@@ -111,7 +111,7 @@
 
                             <h3>Descripción</h3>
                             <hr class="mb-5">
-                            <TipTap v-model="datosActualizacionServicio.descripcion" :max-limit="2500" />
+                            <TipTap v-model="datosActualizacionServicio.descripcion" :max-limit="700" />
                         </div>
 
                         <div class="">
@@ -302,10 +302,6 @@ const actualizar = async () => {
             codigo: datosActualizacionServicio.value.codigo,
             titulo: datosActualizacionServicio.value.titulo,
             descripcion: datosActualizacionServicio.value.descripcion,
-            texto: servicioSeleccionado.value.texto,
-            foto: servicioSeleccionado.value.foto,
-            tipo: servicioSeleccionado.value.tipo,
-            uid: servicioSeleccionado.value.uid,
         }
         const response = await $apiContenido.put(`/contenidos/${servicioSeleccionado.value.uid}`, body, config)
         dialogActualizacionServicio.value = false
@@ -331,13 +327,7 @@ const actualizarContenido = async () => {
             }
         }
         const body = {
-            codigo: servicioSeleccionado.value.codigo,
-            titulo: servicioSeleccionado.value.titulo,
-            descripcion: servicioSeleccionado.value.descripcion,
             texto: contenidoActualizado.value,
-            foto: servicioSeleccionado.value.foto,
-            tipo: servicioSeleccionado.value.tipo,
-            uid: servicioSeleccionado.value.uid,
         }
         const response = await $apiContenido.put(`/contenidos/${servicioSeleccionado.value.uid}`, body, config)
         dialogActualizacionContenido.value = false

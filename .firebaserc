@@ -1,6 +1,8 @@
 {
   "projects": {
-    "default": "consultoria-legal-dev"
+    "default": "consultoria-legal-dev",
+    "dev": "consultoria-legal-dev",
+    "prod": "consultoria-legal"
   },
   "targets": {
     "consultoria-legal-dev": {

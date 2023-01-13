@@ -96,8 +96,8 @@ definePageMeta({
 // Data
 const user = useUser()
 const dataLogin = ref({
-    email: 'guillepaivag@gmail.com',
-    password: '123456',
+    email: '',
+    password: '',
 })
 const operaciones = [
     { titulo: 'Usuarios', color: 'primary', to: '/administracion/usuarios', btnTitle: 'Usuarios' },

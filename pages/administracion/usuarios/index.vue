@@ -232,7 +232,7 @@ const paginarLista = async () => {
 const listar = async (nextPageToken) => {
     const { $apiUsuario } = useNuxtApp()
     const body = {
-        cantidad: 1,
+        cantidad: 5,
         nextPageToken
     }
     const config = {

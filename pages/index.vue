@@ -29,14 +29,31 @@
                 <hr class="mb-7">
                 <v-row>
                     <v-col class="pa-2" cols="12" md="7">
-                        <v-text-field class="input-contacto" v-model="emailDataCorreo" label="Correo"
-                            required></v-text-field>
-                        <v-text-field class="input-contacto" v-model="emailDataAsunto" label="Asunto"
-                            required></v-text-field>
-                        <TipTap v-model="emailDataContenido" :max-limit="2500" class="tiptap" />
+                        <v-text-field 
+                            class="input-contacto" 
+                            v-model="emailDataCorreo" 
+                            label="Mi correo"
+                            required
+                        ></v-text-field>
+                        <v-text-field 
+                            class="input-contacto" 
+                            v-model="emailDataAsunto" 
+                            label="Asunto"
+                            required
+                        ></v-text-field>
+                        <TipTap 
+                            v-model="emailDataContenido" 
+                            :max-limit="2500" 
+                            class="tiptap" 
+                        />
                         <div class="container text-right">
-                            <v-btn class="read-more" @click="enviarMensaje" style="text-decoration: none;" 
-                            :disabled="!emailDataCorreo.length || !emailDataAsunto.length || emailDataContenido.length < 8 ">
+                            <v-btn 
+                                class="read-more" 
+                                @click="enviarMensaje" 
+                                style="text-decoration: none;" 
+                                :disabled="!emailDataCorreo.length || !emailDataAsunto.length || emailDataContenido.length < 8 "
+                                :loading="enviandoCorreo"
+                            >
                                 Enviar
                             </v-btn>
                         </div>
@@ -50,9 +67,6 @@
                 </v-row>
             </v-container>
 
-            <div class="">
-
-            </div>
             <Footer></Footer>
         </v-app>
     </div>
@@ -65,11 +79,12 @@ import { onMounted } from "vue";
 const items = ref([])
 const quienesSomos = ref(null)
 
-const emailDataCorreo=ref('')
-const emailDataAsunto=ref('')
-const emailDataContenido=ref('')
+const emailDataCorreo = ref('')
+const emailDataAsunto = ref('')
+const emailDataContenido = ref('')
+const enviandoCorreo = ref(false)
 
-await useAsyncData(async (context) => {
+useAsyncData(async (context) => {
     console.log('process server:', process.server)
 
     const config = {
@@ -88,7 +103,24 @@ await useAsyncData(async (context) => {
 })
 
 const enviarMensaje = async () => {
+    enviandoCorreo.value = true
+    const nuxtApp = useNuxtApp()
 
+    const body = { 
+        correo: emailDataCorreo.value, 
+        asunto: emailDataAsunto.value, 
+        contenido: emailDataContenido.value 
+    }
+    const config = { 
+        headers: { 'Content-Type': 'application/json' } 
+    }
+    await nuxtApp.$apiCorreo.post('/correos/correo-de-contacto', body, config)
+
+    emailDataCorreo.value = ''
+    emailDataAsunto.value = ''
+    emailDataContenido.value = ''
+
+    enviandoCorreo.value = false
 }
 
 onMounted(async (context) => {

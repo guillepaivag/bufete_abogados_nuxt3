@@ -29,5 +29,10 @@ export default defineNuxtConfig({
     },
     nitro: {
         preset: 'firebase'
+    },
+    runtimeConfig: {
+        public: {
+            TIPO_PROYECTO: 'dev'
+        }
     }
 })
