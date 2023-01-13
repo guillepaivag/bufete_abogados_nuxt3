@@ -1,4 +1,4 @@
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth'
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, sendPasswordResetEmail } from 'firebase/auth'
 import { appDefault } from '~~/firebase-services/apps/firebaseAppDefault'
 
 export const signInUser = async (email, password) => {
@@ -42,5 +42,11 @@ export const currentUser = () => {
 export const signOutUser = async () => {
     const auth = getAuth(appDefault)
     const result = await auth.signOut()
+    return result
+}
+
+export const recuperarContrasenha = async (email) => {
+    const auth = getAuth(appDefault)
+    const result = await sendPasswordResetEmail(auth, email)
     return result
 }
