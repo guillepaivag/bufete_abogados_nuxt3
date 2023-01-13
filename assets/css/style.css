@@ -3,6 +3,10 @@ div {
     font-family: 'Poppins';
 }
 
+body {
+  background-color: rgb(230, 230, 230);
+}
+
 p {
     margin-bottom: 15px;
     color: rgba(0,0,0,0.6);

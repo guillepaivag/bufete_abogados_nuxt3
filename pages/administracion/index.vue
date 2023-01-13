@@ -1,5 +1,6 @@
 <template>
     <ClientOnly>
+
         <v-breadcrumbs :items="breadcrumbs">
             <template v-slot:prepend>
                 <v-icon size="small" icon="mdi-vuetify"></v-icon>
@@ -63,7 +64,8 @@
                         Ingrese el correo
                     </v-card-title>
                     <v-card-text>
-                        <v-alert v-if="alertMensajeEnviado" density="compact" type="success" variant="outlined" class="mb-3">
+                        <v-alert v-if="alertMensajeEnviado" density="compact" type="success" variant="outlined"
+                            class="mb-3">
                             Correo de recuperación enviado!
                         </v-alert>
                         <v-alert v-if="errorRecuperar" density="compact" type="error" variant="outlined" class="mb-3">
@@ -71,19 +73,18 @@
                         </v-alert>
                         Se le enviará un enlace al correo para cambiar la contraseña.
                     </v-card-text>
-                    
+
                     <v-card-text>
-                        <v-text-field v-model="emailRecuperar" :error-messages="emailVerificationRecuperar" label="Correo"
-                            required outlined></v-text-field>
-                        </v-card-text>
+                        <v-text-field v-model="emailRecuperar" :error-messages="emailVerificationRecuperar"
+                            label="Correo" required outlined></v-text-field>
+                    </v-card-text>
                     <v-card-actions class="mb-3">
-                        <v-btn color="green-darken-1" variant="outlined"
-                        @click="recuperarPass()"
-                        :loading="enviandoMensajeRecuperar">
+                        <v-btn color="green-darken-1" variant="outlined" @click="recuperarPass()"
+                            :loading="enviandoMensajeRecuperar">
                             Enviar
                         </v-btn>
                         <v-btn color="red-darken-1" variant="outlined"
-                            @click="dialogRecuperar = false; emailRecuperar = ''; errorRecuperar = false; alertMensajeEnviado = false ">
+                            @click="dialogRecuperar = false; emailRecuperar = ''; errorRecuperar = false; alertMensajeEnviado = false">
                             Cancelar
                         </v-btn>
                     </v-card-actions>
