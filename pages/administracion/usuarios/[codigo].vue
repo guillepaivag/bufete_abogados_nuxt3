@@ -1,12 +1,12 @@
 <template>
     <div>
-        <v-breadcrumbs :items="breadcrumbs">
+        <v-breadcrumbs :items="breadcrumbs" class="breadcrumbs">
             <template v-slot:prepend>
                 <v-icon size="small" icon="mdi-vuetify"></v-icon>
             </template>
         </v-breadcrumbs>
 
-        <div class="container_usuario" v-if="!cargandoUsuario">
+        <v-container v-if="!cargandoUsuario">
             <v-card class="pa-5 mb-15">
                 <h2>Datos del usuario</h2>
                 <hr width="50%" class="mb-5">
@@ -96,7 +96,7 @@
                     Eliminar mi usuario
                 </v-btn>
             </v-card>
-        </div>
+        </v-container>
         <div class="container_cargando" v-else>
             <v-progress-linear
                 indeterminate
@@ -305,7 +305,6 @@ onMounted(async () => {
 
 
 <style scoped>
-.container_usuario {
-    margin: 20px 90px 50px 90px;
-}
+
+
 </style>

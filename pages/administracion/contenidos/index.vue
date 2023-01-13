@@ -1,13 +1,13 @@
 <template>
     <div>
-        <v-breadcrumbs :items="breadcrumbs">
+        <v-breadcrumbs :items="breadcrumbs" class="breadcrumbs">
             <template v-slot:prepend>
                 <v-icon size="small" icon="mdi-vuetify"></v-icon>
             </template>
         </v-breadcrumbs>
 
-        <div>
-            <v-card class="ma-15">
+        <v-container>
+            <v-card class="">
                 <v-row>
                     <v-col cols="12" md="4">
                         <div class="pa-5">
@@ -107,7 +107,7 @@
                     </v-card>
                 </v-dialog>
             </v-row>
-        </div>
+        </v-container>
         <v-dialog max-width="1000" v-model="dialogCambiarImagen" persistent>
             <v-card class="pa-3">
                 <v-card-text class="mb-3">

@@ -1,14 +1,14 @@
 <template>
     <div class="">
 
-        <v-breadcrumbs :items="breadcrumbs">
+        <v-breadcrumbs :items="breadcrumbs" class="breadcrumbs">
             <template v-slot:prepend>
                 <v-icon size="small" icon="mdi-vuetify"></v-icon>
             </template>
         </v-breadcrumbs>
 
-        <div>
-            <v-card class="ma-15">
+        <v-container>
+            <v-card class="">
                 <v-row>
                     <v-col cols="12" md="6">
                         <div class="pa-5">
@@ -152,7 +152,7 @@
             <!-- Ver mi usuario -->
 
             <!-- Listar -->
-        </div>
+        </v-container>
     </div>
 </template>
 
