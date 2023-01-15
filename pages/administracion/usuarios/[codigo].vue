@@ -81,17 +81,10 @@
                 <h2>Eliminar usuario</h2>
                 <hr width="50%" class="mb-5">
 
-                <v-text-field
-                    v-model="contrasenaVerificationEliminacion"
-                    :error-messages="computedContrasenaVerificationEliminacion"
-                    label="Ingrese tu contraseña para eliminar tu usuario"
-                ></v-text-field>
-
                 <v-btn
-                    :disabled="contrasenaVerificationEliminacion.length < 6"
                     class="mt-3 mr-4"
                     color="red"
-                    @click="eliminarUsuario"
+                    @click="dialogEliminacion = true"
                 >
                     Eliminar mi usuario
                 </v-btn>
@@ -121,6 +114,55 @@
                 </div>
             </v-card>
         </v-dialog>
+
+        <v-dialog
+            v-model="dialogEliminacion"
+            v-if="usuario"
+            max-width="800px"
+        >
+            <v-card>
+                <v-card-title class="informacionAccion textoInformacionAccion">
+                    ¿Quieres eliminar este usuario?
+                </v-card-title>
+                <v-card-text class="informacionAccion textoInformacionAccion">
+                    Esta acción eliminará el usuario de forma permanente.
+                </v-card-text>
+                <v-card-text class="mt-5">
+                    Para confirmar que deseas eliminar este usuario, escribe su email: 
+                    <b>{{ usuario.email }}</b>
+                </v-card-text>
+
+                <div class="container text-center" max-width="400px">
+                    <v-text-field
+                        class="inputConfirmacionAccion"
+                        v-model="confirmacionEliminacionUsuario"
+                        :label="usuario.email"
+                        required
+                    ></v-text-field>
+                </div>
+
+                <v-card-actions class="d-flex flex-row-reverse pb-5 pt-5">
+                    <v-btn
+                        class="ml-4 mr-3"
+                        :disabled="confirmacionEliminacionUsuario !== usuario.email"
+                        color="red"
+                        text
+                        @click="eliminarUsuario"
+                    >
+                        Eliminar usuario
+                    </v-btn>
+
+                    <v-btn
+                        color="grey darken-2"
+                        text
+                        @click="dialogEliminacion = false"
+                    >
+                        Cerrar
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+
     </div>
 </template>
 
@@ -146,6 +188,8 @@ const confirmacionContrasena = ref('')
 const contrasenaVerificationEliminacion = ref('')
 const dialogMensaje = ref(false)
 const mensaje = ref('')
+const dialogEliminacion = ref(false)
+const confirmacionEliminacionUsuario = ref('')
 const breadcrumbs = [
     {
         title: 'Inicio',
@@ -305,6 +349,18 @@ onMounted(async () => {
 
 
 <style scoped>
+.informacionAccion {
+    /* rgba(230, 62, 62, 0.159) */
+    background-color: rgba(255, 29, 137, 0.159);
+}
 
+.textoInformacionAccion {
+    color: rgb(197, 52, 52);
+}
+
+.inputConfirmacionAccion {
+    margin-left: 12px;
+    margin-right: 12px;
+}
 
 </style>

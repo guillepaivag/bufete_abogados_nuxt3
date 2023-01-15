@@ -64,7 +64,7 @@
 
                                 <v-card-actions>
                                     <v-btn v-if="listaServicios.length" block variant="outlined" color="red"
-                                        @click="eliminar">
+                                        @click="dialogEliminacion = true">
                                         Eliminar servicio
                                     </v-btn>
                                 </v-card-actions>
@@ -173,6 +173,54 @@
                 </v-card>
             </v-dialog>
 
+            <v-dialog
+            v-model="dialogEliminacion"
+            v-if="servicioSeleccionado"
+            max-width="800px"
+        >
+            <v-card>
+                <v-card-title class="informacionAccion textoInformacionAccion">
+                    ¿Quieres eliminar este servicio?
+                </v-card-title>
+                <v-card-text class="informacionAccion textoInformacionAccion">
+                    Esta acción eliminará el servicio de forma permanente.
+                </v-card-text>
+                <v-card-text class="mt-5">
+                    Para confirmar que deseas eliminar este servicio, escribe su codigo: 
+                    <b>{{ servicioSeleccionado.codigo }}</b>
+                </v-card-text>
+
+                <div class="container text-center" max-width="400px">
+                    <v-text-field
+                        class="inputConfirmacionAccion"
+                        v-model="confirmacionEliminacionservicio"
+                        :label="servicioSeleccionado.codigo"
+                        required
+                    ></v-text-field>
+                </div>
+
+                <v-card-actions class="d-flex flex-row-reverse pb-5 pt-5">
+                    <v-btn
+                        class="ml-4 mr-3"
+                        :disabled="confirmacionEliminacionservicio !== servicioSeleccionado.codigo"
+                        color="red"
+                        text
+                        @click="eliminar"
+                    >
+                        Eliminar
+                    </v-btn>
+
+                    <v-btn
+                        color="grey darken-2"
+                        text
+                        @click="dialogEliminacion = false"
+                    >
+                        Cerrar
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+
         </v-container>
     </div>
 </template>
@@ -211,6 +259,8 @@ const cargandoImagen = ref({})
 cargandoImagen.value.cargando = false
 
 const eliminando = ref(false)
+const dialogEliminacion = ref(false)
+const confirmacionEliminacionservicio = ref("")
 
 const breadcrumbs = [
     {
@@ -355,6 +405,7 @@ const eliminar = async () => {
         await $apiContenido.delete(`/contenidos/${servicioSeleccionado.value.uid}`, config)
     }
     eliminando.value = false
+    dialogEliminacion.value = false
 
     // Eliminar elemento eliminado de listaServicios
     const index = listaServicios.value.findIndex(v => v.uid === servicioSeleccionado.value.uid)
@@ -452,4 +503,19 @@ export default {
 .card_usuario span {
     color: white;
 }
+
+.informacionAccion {
+    /* rgba(230, 62, 62, 0.159) */
+    background-color: rgba(255, 29, 137, 0.159);
+}
+
+.textoInformacionAccion {
+    color: rgb(197, 52, 52);
+}
+
+.inputConfirmacionAccion {
+    margin-left: 12px;
+    margin-right: 12px;
+}
+
 </style>
