@@ -1,0 +1,24 @@
+{
+  "functions": {
+    "source": ".output/server",
+    "runtime": "nodejs16"
+  },
+  "hosting": {
+    "site": "consultoria-legal-dev",
+    "public": ".output/public",
+    "cleanUrls": true,
+    "rewrites": [{ "source": "**", "function": "server" }]
+  },
+  "emulators": {
+    "functions": {
+      "port": 5010
+    },
+    "hosting": {
+      "port": 5000
+    },
+    "ui": {
+      "enabled": true
+    },
+    "singleProjectMode": true
+  }
+}
